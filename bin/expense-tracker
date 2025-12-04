@@ -1,0 +1,70 @@
+#! /usr/bin/env php
+<?php
+
+use App\Database\JsonStorage;
+use App\Validator\ConsoleValidator;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+include_once __DIR__ . '/../src/Console/Constanst.php';
+
+// Validate constants commons   
+if(!defined('description') || !defined('amount') || !defined('month')) {
+    echo "Error: Missing required constants. Please check Constanst.php file.\n";
+    exit(1);
+}
+
+// run validator by type command
+array_shift($argv);
+$command = $argv[0] ?? null;
+
+switch($command) {
+    case 'add':
+        $isValidated = ConsoleValidator::validateAdd($argc, $argv);
+        if(!$isValidated) {
+            exit(1);
+        }
+        $database = (new JsonStorage());
+        $service = (new App\Services\ExpenseService($database));
+
+        $des = $argv[2];
+        $amount = $argv[4];
+        $service->add($des, $amount);
+
+        break;
+    case 'delete':
+        $id = $argv[2];
+        // code to view expenses
+        $database = (new JsonStorage());
+        $service = (new App\Services\ExpenseService($database));
+        $expenses = $service->delete($id);
+        break;
+    case 'list':
+        $database = (new JsonStorage());
+        $service = (new App\Services\ExpenseService($database));
+        $expenses = $service->showList();
+        // code to view expenses
+        break;  
+    case 'summary':
+        $isValidated = ConsoleValidator::validateSummary($argc, $argv);
+        if(!$isValidated) {
+            exit(1);
+        }
+
+        $database = (new JsonStorage());
+        $service = (new App\Services\ExpenseService($database));
+
+        $expenses = $service->summary($argv[2] ?? null);
+        // code to view expenses
+        break;       
+    case 'export':
+        $database = (new JsonStorage());
+        $service = (new App\Services\ExpenseService($database));
+
+        $expenses = $service->exportCSV();
+        // code to view expenses
+        break;          
+    default:
+        echo "Error: Unknown command.\n";
+        exit(1);
+}
+

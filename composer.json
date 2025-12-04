@@ -1,0 +1,17 @@
+{
+    "name": "nguyenhoaichuong/expense-tracker",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "naninani2xx1",
+            "email": "nhchuong2001@gmail.com"
+        }
+    ],
+    "require": {}
+}
