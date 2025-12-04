@@ -1,7 +1,7 @@
 # Features
 1. Add, Update, Delete, Summary
 2. Export data into csv file (storage: data/)
-   
+[example](https://roadmap.sh/projects/expense-tracker)
 # how to run it on mac?
 1. ```
    chmod +x expense-tracker
